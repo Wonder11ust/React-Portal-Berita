@@ -149,7 +149,7 @@ const Category = () => {
 {modalIsOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-10">
         <div className="fixed inset-0 bg-black opacity-50"></div>
-        <div className="bg-white p-4 rounded-lg z-50">
+        <div className="bg-white p-4 rounded-lg w-1/2 z-50">
           <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold">Edit Kategori</h2>
               <button
