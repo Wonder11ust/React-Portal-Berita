@@ -1,10 +1,52 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 // components
 
 import CardStats from "components/Cards/CardStats.js";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 export default function HeaderStats() {
+
+  const [article,setArticle] = useState()
+  const [category,setCategory] = useState()
+  const [writter,setWritter] = useState()
+  const [user,setUser] = useState()
+  const token = Cookies.get('token');
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/dashboard/admin/total-articles', {
+      headers: {
+        'Authorization': `Bearer ${token} `,
+      }}).then(res=>{
+      setArticle(res.data.total)
+    })
+    axios.get('http://localhost:8000/api/dashboard/admin/total-categories', {
+      headers: {
+        'Authorization': `Bearer ${token} `,
+      }}).then(res=>{
+      setCategory(res.data.total)
+    })
+    axios.get('http://localhost:8000/api/dashboard/admin/total-writers', {
+      headers: {
+        'Authorization': `Bearer ${token} `,
+      }}).then(res=>{
+      setWritter(res.data.total)
+    })
+    axios.get('http://localhost:8000/api/dashboard/admin/total-users', {
+      headers: {
+        'Authorization': `Bearer ${token} `,
+      }}).then(res=>{
+      setUser(res.data.total)
+    })
+
+
+  }, [])
+  
+  console.log({article,category,writter,user});
+
+
+
   return (
     <>
       {/* Header */}
@@ -15,48 +57,48 @@ export default function HeaderStats() {
             <div className="flex flex-wrap">
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
-                  statSubtitle="TRAFFIC"
-                  statTitle="350,897"
-                  statArrow="up"
-                  statPercent="3.48"
-                  statPercentColor="text-emerald-500"
-                  statDescripiron="Since last month"
+                  statSubtitle="Articles"
+                  statTitle={article&&article}
+                  statArrow=" "
+                  statPercent=" "
+                  statPercentColor="text-white"
+                  statDescripiron=" "
                   statIconName="far fa-chart-bar"
                   statIconColor="bg-red-500"
                 />
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
-                  statSubtitle="NEW USERS"
-                  statTitle="2,356"
-                  statArrow="down"
-                  statPercent="3.48"
-                  statPercentColor="text-red-500"
-                  statDescripiron="Since last week"
+                  statSubtitle="Categories"
+                  statTitle={category&&category}
+                  statArrow=""
+                  statPercent=" "
+                  statPercentColor="text-white"
+                  statDescripiron=" "
                   statIconName="fas fa-chart-pie"
                   statIconColor="bg-orange-500"
                 />
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
-                  statSubtitle="SALES"
-                  statTitle="924"
-                  statArrow="down"
-                  statPercent="1.10"
-                  statPercentColor="text-orange-500"
-                  statDescripiron="Since yesterday"
+                  statSubtitle="Writer"
+                  statTitle={writter&writter}
+                  statArrow=" "
+                  statPercent=" "
+                  statPercentColor="text-white"
+                  statDescripiron=" "
                   statIconName="fas fa-users"
                   statIconColor="bg-pink-500"
                 />
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
-                  statSubtitle="PERFORMANCE"
-                  statTitle="49,65%"
-                  statArrow="up"
-                  statPercent="12"
-                  statPercentColor="text-emerald-500"
-                  statDescripiron="Since last month"
+                  statSubtitle="User"
+                  statTitle={user&&user}
+                  statArrow=""
+                  statPercent=""
+                  statPercentColor="text-white"
+                  statDescripiron=" "
                   statIconName="fas fa-percent"
                   statIconColor="bg-lightBlue-500"
                 />

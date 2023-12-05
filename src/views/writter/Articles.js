@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Swal from 'sweetalert2';
 
 const Article = () => {
   const [articles, setArticles] = useState([]);
@@ -79,9 +80,14 @@ const Article = () => {
     }).then(res=>{
       console.log(res);
     })
+    Swal.fire({
+      title: "Berhasil!",
+      text: "Berhasil Mengubah Artikel",
+      icon: "success"
+    });
     setNewArticle({ title: '', content: '', category: [], image_url: '', slug: '' })
     fetchArticles();
-   
+    closeModal()
   };
 
   const handleChange = (e) => {
@@ -126,6 +132,40 @@ const Article = () => {
       : articleSelected.category.filter(existingCategoryId => existingCategoryId !== categoryId);
   
       setArticleSelected(prevState => ({ ...prevState, category: updatedCategories }));
+  };
+
+  const deleteArticle = (article) => {
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        axios.delete(`http://localhost:8000/api/dashboard/article/delete/${article.slug}`, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`,
+          },
+        })
+          .then(() => fetchArticles())
+          .catch(error => console.error('Error deleting article:', error));
+
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
+      }
+    });
+
+
+    
   };
 
 
@@ -209,7 +249,7 @@ const Article = () => {
               <p className="text-gray-600 mb-4 line-clamp-3">{article.content}</p>
               <div className="flex justify-between">
                 <button className="text-blue-500 hover:text-blue-700" onClick={()=>openModal(article)}>Edit</button>
-                <button className="text-red-500 hover:text-red-700">Delete</button>
+                <button className="text-red-500 hover:text-red-700" onClick={()=>deleteArticle(article)}>Delete</button>
               </div>
             </div>
           ))}
@@ -217,9 +257,9 @@ const Article = () => {
       )}
 
 {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-10">
+        <div className="fixed inset-0 flex items-center  justify-center z-10">
         <div className="fixed inset-0 bg-black opacity-50"></div>
-        <div className="bg-white p-4 rounded-lg z-50">
+        <div className="bg-white p-4 rounded-lg z-50 w-1/2">
         <div className='flex justify-between'>
             <h2 className="text-lg font-semibold mb-2">Edit Article</h2>
             <button className='w-5 h-5 rounded-full bg-red-400' onClick={closeModal}>X</button>
@@ -268,7 +308,7 @@ const Article = () => {
               <input
                 id={category.id} 
                 type="checkbox"
-                name={category.category_name}
+                name={category.id}
                 checked={articleSelected.category.includes(category.id)}
                 onChange={handleModalCategoryChange}
                 className="mr-2"

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import Footer from 'components/Landing/Footer'
+import Footer from 'components/Footers/Footer';
 import Navbar from 'components/Landing/Navbar'
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react'
@@ -80,7 +80,7 @@ function Artikel() {
 
         </div>
 
-        <div className='flex justify-center'>
+        <div className='flex justify-center pb-12'>
             {/* Comment Section */}
         <div className='w-1/2'>
           <h2 className='text-xl font-semibold mb-4'>Comments</h2>

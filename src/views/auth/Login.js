@@ -36,9 +36,9 @@ export default function Login() {
         }}).then(res=>{
           console.log(res.data.user);
           if(res.data.user.role_id === 1){
-            history.push('/admin');
+            history.push('/admin/articles');
           }else if(res.data.user.role_id === 2 ){
-            history.push('/writter');
+            history.push('/writter/articles');
           }if(res.data.user.role_id === 3 ){
             history.push('/');
           }

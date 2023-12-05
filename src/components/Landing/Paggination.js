@@ -22,11 +22,11 @@ function Items({ currentItems }) {
         {currentItems.map((item) => (
         <div
           key={item.id}
-          className="flex flex-col rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700 md:flex-row h-40 "
+          className="flex cursor-pointer hover:bg-gray-100 transition-all duration-500 flex-col rounded-lg hover:scale-105 transform bg-white shadow dark:bg-neutral-700 md:flex-row h-40 "
           onClick={()=>handlePindahArtikel(item)}
         >
           <img
-            className=" w-1/3 rounded object-cover md:h-auto md:!rounded-none md:!rounded-l-lg"
+            className=" w-1/3 rounded object-cover md:h-auto md:!rounded-none md:!rounded-l-lg hover:scale-105"
             src={`${item.image_url}`}
             alt={item.title}
           />
